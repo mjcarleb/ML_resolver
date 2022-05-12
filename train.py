@@ -15,7 +15,7 @@ train, val = train_test_split(df,test_size=0.15, random_state=42)
 ########################################
 #     PREPARE DATA
 ########################################
-features = ["market", "source_system"]
+features = ["market", "source_system", "account"]
 label = "resolver_label"
 
 feature_enc = OneHotEncoder(sparse=False)
