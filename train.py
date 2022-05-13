@@ -15,7 +15,7 @@ train, val = train_test_split(df,test_size=0.15, random_state=42)
 ########################################
 #     PREPARE DATA
 ########################################
-features = ["market", "source_system", "account"]
+features = ["market", "source_system", "account", "sanctioned_security"]
 label = "resolver_label"
 
 feature_enc = OneHotEncoder(sparse=False)
@@ -42,9 +42,18 @@ accuracy = accuracy_score(y_true=y_val, y_pred=predictions)
 print(f"Accuracy with features = {features} = {accuracy :0.2%}")
 
 ########################################
-#     PERSIST MODEL
+#     PERSIST MODELS
 ########################################
 model_dir = "models/"
+
+file_name = "feature_enc_model.serial"
+with open(f"{model_dir}{file_name}", "wb") as f:
+    pickle.dump(feature_enc, f)
+
+file_name = "label_enc_model.serial"
+with open(f"{model_dir}{file_name}", "wb") as f:
+    pickle.dump(label_enc, f)
+
 file_name = "dt_model.serial"
 with open(f"{model_dir}{file_name}", "wb") as f:
     pickle.dump(dt_model, f)
