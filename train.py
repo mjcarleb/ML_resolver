@@ -5,6 +5,8 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.metrics import accuracy_score
 import pandas as pd
 import pickle
+from matplotlib import pyplot as plt
+from sklearn import tree
 
 data_dir = "../DataGeneration/data/"
 file_name = "training_trades"
@@ -79,3 +81,12 @@ predictions = dt_model.predict(X_val)
 accuracy = accuracy_score(y_true=y_val, y_pred=predictions)
 print(f"After ser/deser, accuracy with features of {ohe_features} anda amount_USD:  {accuracy :0.2%}")
 
+
+##################################################
+#          VIZ
+##################################################
+fig = plt.figure(figsize=(12,3), dpi=2000)
+tree.plot_tree(dt_model, feature_names=["market", "source_system", "account", "sanctioned_security", "amt_USd"],
+                   class_names=["compliance", "peter", "ema", "mary", "bill", "sue", "suzy", "phil", "richard", "abdul", "kevin", "darien", "daren"], filled=True)
+
+fig.savefig("tree.png")
