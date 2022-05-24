@@ -1,7 +1,6 @@
 import numpy as np
-import sklearn
 from sklearn.model_selection import train_test_split, cross_val_score
-from sklearn.preprocessing import OneHotEncoder
+from sklearn.preprocessing import OneHotEncoder, OrdinalEncoder, LabelEncoder
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.metrics import accuracy_score
 import pandas as pd
@@ -19,8 +18,8 @@ train, val = train_test_split(df,test_size=0.15, random_state=42)
 
 # ohe features
 ohe_features = ["market", "source_system", "account", "sanctioned_security"]
-feature_enc = OneHotEncoder(sparse=False)
-feature_fit = feature_enc.fit(X=train[ohe_features])
+feature_enc = OrdinalEncoder()  #OneHotEncoder(sparse=False)
+feature_enc.fit(X=train[ohe_features])
 ohe_tr = feature_enc.transform(X=train[ohe_features])
 ohe_val = feature_enc.transform(X=val[ohe_features])
 
@@ -33,10 +32,11 @@ a=3
 
 # label
 label = "resolver_label"
-label_enc = OneHotEncoder(sparse=False)
-label_fit = label_enc.fit(X=train[label].values.reshape(-1, 1))
-y_tr = label_enc.transform(X=train[label].values.reshape(-1, 1))
-y_val = label_enc.transform(X=val[label].values.reshape(-1, 1))
+label_enc = LabelEncoder() # OneHotEncoder(sparse=False)
+label_enc.fit(train[label])  #label_enc.fit(X=train[label].values.reshape(-1, 1))
+y_tr = label_enc.transform(train[label]) #label_enc.transform(X=train[label].values.reshape(-1, 1))
+y_val = label_enc.transform(val[label]) #label_enc.transform(X=val[label].values.reshape(-1, 1))
+a=3
 
 ########################################
 #     TRAIN MODEL
